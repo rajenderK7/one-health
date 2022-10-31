@@ -3,7 +3,6 @@ import UserContextProps from "../models/userContextProps";
 
 const defaultContext: UserContextProps = {
   user: null,
-  username: null,
   role: -1,
 };
 

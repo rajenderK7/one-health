@@ -1,7 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, getFirestore, setDoc } from "firebase/firestore";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,19 +30,33 @@ const googleAuthProvider = new GoogleAuthProvider();
 
 // method to signup with google with extra props
 const signUpWithGoogle = async (role: number) => {
-  console.log(role);
+  console.log("Selected role: " + role);
 
   try {
     const res = await signInWithPopup(auth, googleAuthProvider);
     const user = res.user;
     const userRef = doc(db, "users", user.uid);
-    await setDoc(userRef, {
-      name: user.displayName,
-      role: Number(role),
-    });
+    const firebaseUser = await getDoc(userRef);
+    if (!firebaseUser.exists()) {
+      await setDoc(userRef, {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+        role: Number(role),
+      });
+    }
   } catch (error) {
     console.log(error);
   }
 };
 
-export { app, auth, db, storage, signUpWithGoogle };
+const logout = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { app, auth, db, storage, signUpWithGoogle, logout };

@@ -1,7 +1,8 @@
 import "./App.css";
-import AuthRoute from "./components/AuthRoute";
+import UserNavbar from "./components/user/UserNavbar";
 import UserContext from "./context/userContext";
 import useUser from "./hooks/useUser";
+import PublicRoutes from "./PublicRoutes";
 import Router from "./Router";
 
 function App() {
@@ -9,8 +10,8 @@ function App() {
   return (
     <UserContext.Provider value={userData}>
       <div className="App">
-        <p>One Health</p>
-        <AuthRoute />
+        <UserNavbar />
+        <PublicRoutes />
         <Router />
       </div>
     </UserContext.Provider>

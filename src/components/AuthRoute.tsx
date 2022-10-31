@@ -1,13 +1,15 @@
 import React, { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 import UserContext from "../context/userContext";
 
-const AuthRoute = () => {
-  const { user } = useContext(UserContext);
-  console.log(user?.displayName);
+export interface AuthRouteProps {
+  requiredRole: number;
+}
 
-  //   console.log(role === 1);
+const AuthRoute = ({ requiredRole }: AuthRouteProps) => {
+  const { role } = useContext(UserContext);
 
-  return <div>AuthRoute</div>;
+  return role === requiredRole ? <Outlet /> : <Navigate to="/unauthorized" />;
 };
 
 export default AuthRoute;

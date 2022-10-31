@@ -5,7 +5,6 @@ import { auth, db } from "../lib/firebase";
 
 const useUser = () => {
   const [user] = useAuthState(auth);
-  const [username, setUsername] = useState<string>();
   const [role, setRole] = useState<number>();
 
   useEffect(() => {
@@ -15,9 +14,7 @@ const useUser = () => {
       try {
         unsubscribe = onSnapshot(doc(db, "users", user?.uid), (doc) => {
           if (doc.exists()) {
-            const username = doc.data()?.username;
             const role = doc.data()?.role;
-            setUsername(username);
             setRole(role);
           }
         });
@@ -27,9 +24,8 @@ const useUser = () => {
     }
 
     return unsubscribe;
-  }, [username, role]);
-
-  return { user, username, role };
+  }, [user]);
+  return { user, role };
 };
 
 export default useUser;
