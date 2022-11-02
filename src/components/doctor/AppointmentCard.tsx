@@ -6,27 +6,35 @@ import {
   where,
   getDocs,
   getDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import emailjs from "emailjs-com";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
 import { sessionModel } from "../../models/sessionModel";
 import { getAdditionalUserInfo, sendEmailVerification } from "firebase/auth";
-
+// TODO
+// 1.FIX EMAILJS PARAMS
 function AppointmentCard(appointment: sessionModel) {
   const [id, setId] = useState("");
-
+  const [name, setName] = useState("");
   const sendEmail = (appointment: sessionModel) => {
     var templateParams = {
       paitent_name: appointment.userID,
-      paitent_email: {},
-      doctor_name: "Check this out!",
-      symptoms: {},
-      doctor_fee: {},
+      to_email: "sritish.10@gmail.com",
+      doctor_name: appointment.doctorID,
+      symptoms: "symptoms",
+      doctor_fee: "400",
+      html:"<b>bold</b>"
     };
     emailjs
-      .send("gmail", "template_c1efoau", templateParams, "J8mT6HeY80F3gE4t2")
+      .send(
+        "service_sv44lfb",
+        "template_c1efoau",
+        templateParams,
+        "J8mT6HeY80F3gE4t2"
+      )
       .then(
         function (response) {
           console.log("SUCCESS!", response.status, response.text);
@@ -49,6 +57,7 @@ function AppointmentCard(appointment: sessionModel) {
     });
     // update doc
     await updateDoc(doc(db, "session", id), { complete: 3 });
+    console.log("Accepted")
 
     // email.js
     sendEmail(appointment);
@@ -65,29 +74,29 @@ function AppointmentCard(appointment: sessionModel) {
     const snap = (await getDocs(q)).forEach((doc) => {
       setId(doc.id);
     });
-    console.log(id);
-    await updateDoc(doc(db, "session", id), { complete: 1 });
-
-    console.log("Rejected");
+    await deleteDoc(doc(db, "session", id));
   };
 
-  async function getU() {
-    const ref = doc(db, "users", appointment.userID);
-    const docSnap = await getDoc(ref);let user:any;
-    return docSnap.data()
+  async function getUser() {
+    try {
+      const userRef = doc(db, "users", appointment.userID);
+      const res = await getDoc(userRef);
+      setName(res.data()?.name);
+      console.log(name);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  function getUser() {
-    console.log(getU());
-
-    return <></>;
-  }
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div>
       <Card style={{ width: "18rem" }}>
         <Card.Body>
-          <Card.Title>{getUser()}</Card.Title>
+          <Card.Title>{name}</Card.Title>
           <Button className="me-3" onClick={handleAccept}>
             Accept
           </Button>

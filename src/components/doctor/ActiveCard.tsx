@@ -10,9 +10,10 @@ import {
 import { Button, Card } from "react-bootstrap";
 import { sessionModel } from "../../models/sessionModel";
 import { db } from "../../lib/firebase";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 function ActiveCard(active: sessionModel) {
   const [id, setId] = useState("");
+  const [name, setName] = useState("");
   const handleTest = async () => {};
   const handleMeet = async () => {};
 
@@ -26,24 +27,32 @@ function ActiveCard(active: sessionModel) {
     const snap = (await getDocs(q)).forEach((doc) => {
       setId(doc.id);
     });
-    console.log(id);
     // 2 -> close
     await updateDoc(doc(db, "session", id), { complete: 2 });
   };
 
-  function getUser() {
-    // find logic for user name ???
-    return <>
-      {active.userID}
-    </>;
+  async function getUser() {
+    try {
+      const userRef = doc(db, "users", active.userID);
+      const res = await getDoc(userRef);
+      setName(res.data()?.name);
+      console.log(name);
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <div>
       <div>
+        <a href="tel:+917993199469">call</a>
         <Card style={{ width: "18rem" }}>
           <Card.Body>
-            <Card.Title>{getUser()}</Card.Title>
+            <Card.Title>{name}</Card.Title>
             <Button className="me-3" onClick={handleTest}>
               Prescription/Test
             </Button>
