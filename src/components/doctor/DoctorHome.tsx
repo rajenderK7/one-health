@@ -1,8 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import { useState, useEffect, useContext } from "react";
 import UserContext from "../../context/userContext";
 import {
   doc,
@@ -15,7 +11,7 @@ import {
 import { db } from "../../lib/firebase";
 import AppointmentCard from "./AppointmentCard";
 import { useNavigate } from "react-router-dom";
-import { sessionModel } from "../../models/sessionModel";
+import { SessionModel } from "../../models/sessionModel";
 import ActiveCard from "./ActiveCard";
 function DoctorHome() {
   const [appointments, setAppointments] = useState([] as any);
@@ -67,12 +63,12 @@ function DoctorHome() {
   return (
     <div className="container">
       {appointments.length > 0 && <h4>New Appointments</h4>}
-      {appointments.map((appointment: sessionModel) => {
+      {appointments.map((appointment: SessionModel) => {
         return <AppointmentCard {...appointment} />;
       })}
 
       {active.length > 0 && <h4>Active Appointments</h4>}
-      {active.map((active: sessionModel) => {
+      {active.map((active: SessionModel) => {
         return <ActiveCard {...active} />;
       })}
     </div>

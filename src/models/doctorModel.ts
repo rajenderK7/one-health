@@ -4,6 +4,7 @@ export interface DoctorModel {
   degree: string;
   description: string;
   experience: string;
+  specialization: string[];
   languages: string[];
   consultationFee: string;
   availableHrs: string;

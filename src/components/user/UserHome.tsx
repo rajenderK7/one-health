@@ -1,20 +1,14 @@
-import HomeCard, { HomeCardProps } from "./HomeCard";
+import HomeCard from "./HomeCard";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import userHomeCards from "../../constants/userHomeCards";
-
-const ex: HomeCardProps = {
-  title: "Book Appointment",
-  description: "import 'bootstrap/dist/css/bootstrap.min.css';",
-  link: "/user/book-appointment",
-  linkText: "->",
-};
+import MyAppointments from "./MyAppointments";
 
 const UserHome = () => {
   return (
     <Container>
-      <div className="d-flex">
+      <MyAppointments />
+      <h2 className="mt-3">Services</h2>
+      <div className="d-flex flex-wrap">
         {userHomeCards.map((card, index) => {
           return <HomeCard key={index} {...card} />;
         })}
