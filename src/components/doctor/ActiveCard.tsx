@@ -8,10 +8,10 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { Button, Card } from "react-bootstrap";
-import { sessionModel } from "../../models/sessionModel";
+import { SessionModel } from "../../models/sessionModel";
 import { db } from "../../lib/firebase";
 import { useEffect, useState } from "react";
-function ActiveCard(active: sessionModel) {
+function ActiveCard(active: SessionModel) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const handleTest = async () => {};

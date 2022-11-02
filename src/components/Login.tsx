@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/esm/Button";
 import roles from "../constants/roles";
 import { signUpWithGoogle } from "../lib/firebase";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../context/userContext";
 
 const Login = () => {
   const [selectedRole, setRole] = useState<number>(-1);
-
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleChange = (e: any) => {
@@ -19,10 +20,17 @@ const Login = () => {
     try {
       await signUpWithGoogle(selectedRole);
       navigate("/");
+      return;
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   return (
     <form onSubmit={handleSubmit}>

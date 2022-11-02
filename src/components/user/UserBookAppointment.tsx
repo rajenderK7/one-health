@@ -1,15 +1,38 @@
-import { collection, doc, getDocs, limit, query } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { collection, doc, getDocs, query } from "firebase/firestore";
+import { useState, useEffect, useContext } from "react";
+import { Button } from "react-bootstrap";
+import { useDocumentData } from "react-firebase-hooks/firestore";
+import UserContext from "../../context/userContext";
 import { db } from "../../lib/firebase";
 import { DoctorModel } from "../../models/doctorModel";
 import DoctorCard from "./DoctorCard";
+import SelectCategory from "./SelectCategory";
 
 const UserBookAppointment = () => {
+  const { user } = useContext(UserContext);
   const [doctors, setDoctors] = useState([] as any);
+  const [category, setCategory] = useState("select");
+  const [fetchLoading, setFetchLoading] = useState(false);
+  const [filteredDoctors, setFilteredDoctors] = useState([] as any);
+  const userRef = doc(collection(db, "users"), user?.uid);
+  const [value] = useDocumentData(userRef);
+
+  const handleCategoryChange = (e: any) => {
+    setCategory(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const handleSearch = () => {
+    const docs = doctors.filter((doc: DoctorModel) =>
+      doc.specialization.includes(category)
+    );
+    setFilteredDoctors(docs);
+  };
 
   const fetchDoctors = async () => {
+    setFetchLoading(true);
     try {
-      const doctorsQuery = query(collection(db, "doctors"), limit(10));
+      const doctorsQuery = query(collection(db, "doctors"));
       const res = (await getDocs(doctorsQuery)).docs.map((doc) => ({
         ...doc.data(),
       }));
@@ -17,20 +40,46 @@ const UserBookAppointment = () => {
     } catch (error) {
       console.log(error);
     }
+    setFetchLoading(false);
   };
 
   useEffect(() => {
     fetchDoctors();
   }, []);
 
-  console.log(doctors);
-
   return (
     <div>
-      <h1>UserBookAppointment</h1>
-      {doctors.map((doctor: DoctorModel) => {
-        return <DoctorCard key={doctor.uid} {...doctor} />;
-      })}
+      <div className="d-flex align-items-center">
+        <SelectCategory
+          category={category}
+          handleCategoryChange={handleCategoryChange}
+        />
+        <Button onClick={handleSearch} variant="primary text-sm">
+          Filter
+        </Button>
+      </div>
+      {fetchLoading && <p>loading...</p>}
+      {category === "select" &&
+        doctors.map((doctor: DoctorModel) => {
+          return (
+            <DoctorCard
+              key={doctor.uid}
+              doctor={doctor}
+              currentUserAppointments={value?.appointments}
+            />
+          );
+        })}
+      {category !== "select" &&
+        filteredDoctors.length > 0 &&
+        filteredDoctors.map((doctor: DoctorModel) => {
+          return (
+            <DoctorCard
+              key={doctor.uid}
+              doctor={doctor}
+              currentUserAppointments={value?.appointments}
+            />
+          );
+        })}
     </div>
   );
 };

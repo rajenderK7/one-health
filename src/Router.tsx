@@ -8,6 +8,7 @@ import UserContext from "./context/userContext";
 import RegisterDoctor from "./components/doctor/RegisterDoctor";
 import DiagnosisHome from "./components/diagnosisCenter/DiagnosisHome";
 import RegisterCenter from "./components/diagnosisCenter/RegisterCenter";
+
 const Router = () => {
   const { user, role } = useContext(UserContext);
   console.log(role);
@@ -20,7 +21,7 @@ const Router = () => {
     case 1:
       return (
         <Routes>
-          <Route path="/" element={<UserHome />}></Route>
+          <Route path="/" element={<UserHome />} />
           <Route path="/user" element={<AuthRoute requiredRole={1} />}>
             <Route path="" element={<div>Checker</div>} />
             <Route path="book-appointment" element={<UserBookAppointment />} />

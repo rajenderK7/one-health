@@ -12,14 +12,13 @@ import { db } from "../../lib/firebase";
 import emailjs from "emailjs-com";
 import { useState, useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
-import { sessionModel } from "../../models/sessionModel";
-import { getAdditionalUserInfo, sendEmailVerification } from "firebase/auth";
+import { SessionModel } from "../../models/sessionModel";
 // TODO
 // 1.FIX EMAILJS PARAMS
-function AppointmentCard(appointment: sessionModel) {
+function AppointmentCard(appointment: SessionModel) {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
-  const sendEmail = (appointment: sessionModel) => {
+  const sendEmail = (appointment: SessionModel) => {
     var templateParams = {
       paitent_name: appointment.userID,
       to_email: "sritish.10@gmail.com",
