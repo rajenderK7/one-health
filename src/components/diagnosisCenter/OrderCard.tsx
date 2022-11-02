@@ -1,7 +1,7 @@
 import React from 'react'
-import { sessionModel } from '../../models/sessionModel'
+import { SessionModel } from '../../models/sessionModel'
 
-function OrderCard(order:sessionModel) {
+function OrderCard(order:SessionModel) {
   return (
     <div>OrderCard</div>
   )

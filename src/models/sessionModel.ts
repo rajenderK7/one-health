@@ -7,5 +7,6 @@ export interface SessionModel {
   symptoms: string;
   active: boolean;
   complete: number;
+  meetLink:string,
   prescriptionDownloadLink?: string;
 }

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/userContext";
 import { db } from "../../lib/firebase";
-import { sessionModel } from "../../models/sessionModel";
+import { SessionModel } from "../../models/sessionModel";
 import OrderCard from "./OrderCard";
 
 function DiagnosisHome() {
@@ -32,7 +32,7 @@ function DiagnosisHome() {
   return <div>
     <h4>Dashboard</h4>
     {orders.length ==0 && <h4>No Orders</h4> }
-    {orders.map((order:sessionModel)=>{
+    {orders.map((order:SessionModel)=>{
       return <OrderCard {...order} />
     })}
   </div>;

@@ -22,7 +22,7 @@ const SessionCard = ({
         <div className="d-flex align-items-center">
           Meet Link:
           <Card.Link className="ms-2" href="#">
-            Another Link
+            {session.meetLink}
           </Card.Link>
         </div>
         {/* Order medicine is available only after prescription download link is available */}

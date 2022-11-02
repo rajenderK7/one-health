@@ -10,41 +10,61 @@ import {
 import { Button, Card } from "react-bootstrap";
 import { SessionModel } from "../../models/sessionModel";
 import { db } from "../../lib/firebase";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import emailjs from "emailjs-com";
 function ActiveCard(active: SessionModel) {
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
+  const [meet, setMeet] = useState("");
   const handleTest = async () => {};
-  const handleMeet = async () => {};
+  const sendEmail = (active: SessionModel) => {
+    var templateParams = {
+      subject:"Zoom Meet",
+      name: active.userName,
+      to_email:"sritish.10@gmail.com",
+      html:"<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
+      meet:active.meetLink,
+    };
+    emailjs
+      .send(
+        "service_sv44lfb",
+        "template_c1efoau",
+        templateParams,
+        "J8mT6HeY80F3gE4t2",
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("FAILED...", error);
+        }
+      );
+  };
+  const handleMeet = async () => {
+    fetch("https://zoom-link.herokuapp.com/")
+      .then((res) => res.json())
+      .then((data) => {
+        setMeet(data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    try {
+      await updateDoc(doc(db, "session", active.sessionID), { meetLink: meet });
+    } catch (err) {
+      console.log(err);
+    }
 
-  const handleClose = async () => {
-    const q = query(
-      collection(db, "session"),
-      where("complete", "==", 3),
-      where("doctorID", "==", active.doctorID),
-      where("userID", "==", active.userID)
-    );
-    const snap = (await getDocs(q)).forEach((doc) => {
-      setId(doc.id);
-    });
-    // 2 -> close
-    await updateDoc(doc(db, "session", id), { complete: 2 });
+    // emial.js buggy
+    // sendEmail(active);
   };
 
-  async function getUser() {
+  const handleClose = async () => {
     try {
-      const userRef = doc(db, "users", active.userID);
-      const res = await getDoc(userRef);
-      setName(res.data()?.name);
-      console.log(name);
-    } catch (error) {
-      console.log(error);
+      await updateDoc(doc(db, "session", active.sessionID), { complete: 2 });
+    } catch (err) {
+      console.log(err);
     }
-  }
-
-  useEffect(() => {
-    getUser();
-  }, []);
+  };
 
   return (
     <div>
@@ -52,7 +72,7 @@ function ActiveCard(active: SessionModel) {
         <a href="tel:+917993199469">call</a>
         <Card style={{ width: "18rem" }}>
           <Card.Body>
-            <Card.Title>{name}</Card.Title>
+            <Card.Title>{active.userName}</Card.Title>
             <Button className="me-3" onClick={handleTest}>
               Prescription/Test
             </Button>

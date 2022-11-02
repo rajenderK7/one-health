@@ -16,16 +16,14 @@ import { SessionModel } from "../../models/sessionModel";
 // TODO
 // 1.FIX EMAILJS PARAMS
 function AppointmentCard(appointment: SessionModel) {
-  const [id, setId] = useState("");
-  const [name, setName] = useState("");
   const sendEmail = (appointment: SessionModel) => {
     var templateParams = {
-      paitent_name: appointment.userID,
+      paitent_name: appointment.userName,
       to_email: "sritish.10@gmail.com",
-      doctor_name: appointment.doctorID,
-      symptoms: "symptoms",
+      doctor_name: appointment.doctorName,
+      symptoms: appointment.symptoms,
       doctor_fee: "400",
-      html:"<b>bold</b>"
+      html:"<b>bold</b>",
     };
     emailjs
       .send(
@@ -45,57 +43,49 @@ function AppointmentCard(appointment: SessionModel) {
   };
 
   const handleAccept = async () => {
-    const q = query(
-      collection(db, "session"),
-      where("complete", "==", 0),
-      where("doctorID", "==", appointment.doctorID),
-      where("userID", "==", appointment.userID)
-    );
-    const snap = (await getDocs(q)).forEach((doc) => {
-      setId(doc.id);
-    });
-    // update doc
-    await updateDoc(doc(db, "session", id), { complete: 3 });
-    console.log("Accepted")
-
+    // const q = query(
+    //   collection(db, "session"),
+    //   where("complete", "==", 0),
+    //   where("doctorID", "==", appointment.doctorID),
+    //   where("userID", "==", appointment.userID)
+    // );
+    // const snap = (await getDocs(q)).forEach((doc) => {
+    //   setId(doc.id);
+    // });
+    // update doc 3-> accepted
+    try {
+      await updateDoc(doc(db, "session", appointment.sessionID), { complete: 3 });
+      console.log("Accepted");
+    } catch (err) {
+      console.log(err);
+    }
     // email.js
     sendEmail(appointment);
-    return snap;
   };
 
   const handleReject = async () => {
-    const q = query(
-      collection(db, "session"),
-      where("complete", "==", 0),
-      where("doctorID", "==", appointment.doctorID),
-      where("userID", "==", appointment.userID)
-    );
-    const snap = (await getDocs(q)).forEach((doc) => {
-      setId(doc.id);
-    });
-    await deleteDoc(doc(db, "session", id));
-  };
-
-  async function getUser() {
+    // const q = query(
+    //   collection(db, "session"),
+    //   where("complete", "==", 0),
+    //   where("doctorID", "==", appointment.doctorID),
+    //   where("userID", "==", appointment.userID)
+    // );
+    // const snap = (await getDocs(q)).forEach((doc) => {
+    //   setId(doc.id);
+    // });
     try {
-      const userRef = doc(db, "users", appointment.userID);
-      const res = await getDoc(userRef);
-      setName(res.data()?.name);
-      console.log(name);
-    } catch (error) {
-      console.log(error);
+      await deleteDoc(doc(db, "session", appointment.sessionID));
+    } catch (err) {
+      console.log(err);
     }
-  }
-
-  useEffect(() => {
-    getUser();
-  }, []);
+  };
 
   return (
     <div>
       <Card style={{ width: "18rem" }}>
         <Card.Body>
-          <Card.Title>{name}</Card.Title>
+          <Card.Title>{appointment.userName}</Card.Title>
+          <Card.Body>{appointment.symptoms}</Card.Body>
           <Button className="me-3" onClick={handleAccept}>
             Accept
           </Button>
