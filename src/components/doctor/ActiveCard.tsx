@@ -8,10 +8,10 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { Button, Card } from "react-bootstrap";
-import { sessionModel } from "../../models/sessionModel";
+import { SessionModel } from "../../models/sessionModel";
 import { db } from "../../lib/firebase";
 import { useState } from "react";
-function ActiveCard(active: sessionModel) {
+function ActiveCard(active: SessionModel) {
   const [id, setId] = useState("");
   const handleTest = async () => {};
   const handleMeet = async () => {};
@@ -33,9 +33,7 @@ function ActiveCard(active: sessionModel) {
 
   function getUser() {
     // find logic for user name ???
-    return <>
-      {active.userID}
-    </>;
+    return <>{active.userID}</>;
   }
 
   return (

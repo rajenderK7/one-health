@@ -11,13 +11,12 @@ import { db } from "../../lib/firebase";
 import emailjs from "emailjs-com";
 import { useState } from "react";
 import { Button, Card } from "react-bootstrap";
-import { sessionModel } from "../../models/sessionModel";
-import { getAdditionalUserInfo, sendEmailVerification } from "firebase/auth";
+import { SessionModel } from "../../models/sessionModel";
 
-function AppointmentCard(appointment: sessionModel) {
+function AppointmentCard(appointment: SessionModel) {
   const [id, setId] = useState("");
 
-  const sendEmail = (appointment: sessionModel) => {
+  const sendEmail = (appointment: SessionModel) => {
     var templateParams = {
       paitent_name: appointment.userID,
       paitent_email: {},
@@ -73,8 +72,9 @@ function AppointmentCard(appointment: sessionModel) {
 
   async function getU() {
     const ref = doc(db, "users", appointment.userID);
-    const docSnap = await getDoc(ref);let user:any;
-    return docSnap.data()
+    const docSnap = await getDoc(ref);
+    let user: any;
+    return docSnap.data();
   }
 
   function getUser() {
