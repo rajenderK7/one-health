@@ -2,8 +2,8 @@
   sessionStatus {
       0: "Requested",
       1: "Accepted / Pending Payment",
-      3: "Consultation Active",
-      4: "Completed"
+      2: "Consultation Active",
+      3: "Completed"
   }
 */
 

@@ -11,10 +11,7 @@ export interface HomeCardProps {
 
 function HomeCard({ title, description, linkText, link }: HomeCardProps) {
   return (
-    <Card
-      style={{ maxWidth: "300px", minWidth: "150px" }}
-      className="mx-2 mt-2"
-    >
+    <Card style={{ maxWidth: "300px", minWidth: "200px" }} className="mt-2">
       <Card.Body>
         <Card.Title>{title}</Card.Title>
         <Card.Text>{description}</Card.Text>

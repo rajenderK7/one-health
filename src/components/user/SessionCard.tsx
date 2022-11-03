@@ -1,6 +1,8 @@
+import FileSaver from "file-saver";
 import { Button, Card } from "react-bootstrap";
 import { sessionStatus } from "../../constants/sessionStatus";
 import { SessionModel } from "../../models/sessionModel";
+import DiagnosticCentersModal from "./DiagnosticCentersModal";
 
 export interface SessionCardProps {
   session: SessionModel;
@@ -11,6 +13,10 @@ const SessionCard = ({
   session,
   handleCancelAppointment,
 }: SessionCardProps) => {
+  const saveFile = () => {
+    FileSaver.saveAs(session.prescriptionDownloadLink ?? "", "Prescription");
+  };
+
   return (
     <Card style={{ width: "20rem" }}>
       <Card.Body>
@@ -19,25 +25,45 @@ const SessionCard = ({
           Status: {sessionStatus[session.complete]}
         </Card.Subtitle>
         <Card.Text>Symptoms: {session.symptoms}</Card.Text>
-        <div className="d-flex align-items-center">
-          Meet Link:
-          <Card.Link className="ms-2" href="#">
-            {session.meetLink}
-          </Card.Link>
-        </div>
+        {session.complete >= 2 && (
+          <div>
+            Meet Link:
+            <Card.Link className="ms-2" href="#">
+              {session.meetLink ?? "Not available yet."}
+            </Card.Link>
+          </div>
+        )}
+        {/* Add download functionality */}
+        {session.complete >= 2 && session.prescriptionDownloadLink && (
+          <Button
+            onClick={saveFile}
+            className="me-2 bg-info mt-3 border-0 btn-sm"
+          >
+            Download Presctiption
+          </Button>
+        )}
+        {/* If Complete = 1 show payment link */}
+        {session.complete === 1 && (
+          <p className="text-primary">
+            <span className="text-dark">Note:</span> Please fulfil the payment
+            to continue with consultation.
+          </p>
+        )}
+        {session.complete === 1 && (
+          <Button className="me-2 bg-success mt-3 border-0 btn-sm">
+            Make Payment
+          </Button>
+        )}
         {/* Order medicine is available only after prescription download link is available */}
-        <Button className="me-2 bg-warning mt-3 border-0 btn-sm">
-          Order Medicine
-        </Button>
+        {session.prescriptionDownloadLink && (
+          <Button className="me-2 bg-warning mt-3 border-0 btn-sm">
+            Order Medicine
+          </Button>
+        )}
         {/* Book diagonstics is available only after prescription download link is available */}
-        <Button
-          onClick={() =>
-            handleCancelAppointment(session.sessionID, session.doctorID)
-          }
-          className="me-2 bg-info mt-3 border-0 btn-sm"
-        >
-          Book Diagnostic Center
-        </Button>
+        {session.prescriptionDownloadLink && (
+          <DiagnosticCentersModal sessionID={session.sessionID} />
+        )}
         {/* Show the `Cancel Appointment` option only before the payment is done */}
         {session.complete < 2 && (
           <Button

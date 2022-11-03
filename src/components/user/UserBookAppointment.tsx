@@ -2,6 +2,7 @@ import { collection, doc, getDocs, query } from "firebase/firestore";
 import { useState, useEffect, useContext } from "react";
 import { Button } from "react-bootstrap";
 import { useDocumentData } from "react-firebase-hooks/firestore";
+import { selectCategories } from "../../constants/selectCategories";
 import UserContext from "../../context/userContext";
 import { db } from "../../lib/firebase";
 import { DoctorModel } from "../../models/doctorModel";
@@ -19,7 +20,7 @@ const UserBookAppointment = () => {
 
   const handleCategoryChange = (e: any) => {
     setCategory(e.target.value);
-    console.log(e.target.value);
+    handleSearch();
   };
 
   const handleSearch = () => {
@@ -53,6 +54,7 @@ const UserBookAppointment = () => {
         <SelectCategory
           category={category}
           handleCategoryChange={handleCategoryChange}
+          selectCategories={selectCategories}
         />
         <Button onClick={handleSearch} variant="primary text-sm">
           Filter

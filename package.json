@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.8",
     "bootstrap": "^5.2.2",
     "emailjs-com": "^3.2.0",
+    "file-saver": "^2.0.5",
     "firebase": "^9.13.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.5.0",
@@ -49,5 +50,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.5"
   }
 }
