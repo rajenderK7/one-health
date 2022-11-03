@@ -8,6 +8,7 @@ import UserContext from "./context/userContext";
 import RegisterDoctor from "./components/doctor/RegisterDoctor";
 import DiagnosisHome from "./components/diagnosisCenter/DiagnosisHome";
 import RegisterCenter from "./components/diagnosisCenter/RegisterCenter";
+import BookBeds from "./components/user/BookBeds";
 
 const Router = () => {
   const { user, role } = useContext(UserContext);
@@ -25,6 +26,7 @@ const Router = () => {
           <Route path="/user" element={<AuthRoute requiredRole={1} />}>
             <Route path="" element={<div>Checker</div>} />
             <Route path="book-appointment" element={<UserBookAppointment />} />
+            <Route path="book-beds" element={<BookBeds />} />
           </Route>
         </Routes>
       );

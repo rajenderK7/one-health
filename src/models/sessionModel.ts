@@ -2,6 +2,7 @@ export interface SessionModel {
   sessionID: string;
   userID: string;
   doctorID: string;
+  diagnosticID: string;
   userName: string;
   doctorName: string;
   symptoms: string;
@@ -9,4 +10,5 @@ export interface SessionModel {
   complete: number;
   meetLink:string,
   prescriptionDownloadLink?: string;
+  paymentDone: boolean;
 }

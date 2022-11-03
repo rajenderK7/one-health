@@ -19,7 +19,7 @@ const userHomeCards: HomeCardProps[] = [
   },
   {
     title: "Book Diagnostics",
-    description: "Now DAD -- Diagnostics-At-Doorstep.",
+    description: "Now DAD - Diagnostics-At-Doorstep.",
     link: "/user/book-diagnostics",
     linkText: <AiFillMedicineBox />,
   },

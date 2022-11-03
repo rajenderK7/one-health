@@ -1,6 +1,16 @@
 import { Form } from "react-bootstrap";
 
-const SelectCategory = ({ category, handleCategoryChange }: any) => {
+export interface SelectCategoryProps {
+  category: string;
+  handleCategoryChange: any;
+  selectCategories: any;
+}
+
+const SelectCategory = ({
+  category,
+  handleCategoryChange,
+  selectCategories,
+}: SelectCategoryProps) => {
   return (
     <Form.Group controlId="formBasicSelect">
       <Form.Label>Choose specific category</Form.Label>
@@ -10,9 +20,13 @@ const SelectCategory = ({ category, handleCategoryChange }: any) => {
         onChange={handleCategoryChange}
       >
         <option>select</option>
-        <option value="pediatrics">Pediatrics</option>
-        <option value="cardiology">Cardiology</option>
-        <option value="gastric">Gastric</option>
+        {selectCategories.map((category: any, index: any) => {
+          return (
+            <option key={index} value={category.value}>
+              {category.label}
+            </option>
+          );
+        })}
       </Form.Control>
     </Form.Group>
   );

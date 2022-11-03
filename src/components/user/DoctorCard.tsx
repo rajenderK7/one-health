@@ -35,6 +35,7 @@ function DoctorCard({ doctor, currentUserAppointments }: DoctorCardProps) {
         symptoms: symptoms,
         active: Boolean(true),
         complete: Number(0),
+        paymentDone: Boolean(false),
       });
 
       batch.update(userRef, {
@@ -45,7 +46,7 @@ function DoctorCard({ doctor, currentUserAppointments }: DoctorCardProps) {
       toast.success("Appointment successfully booked");
     } catch (error) {
       console.log(error);
-      somethingWentWrong();
+      somethingWentWrong(error);
     }
     console.log("Appointment booked.");
   };
