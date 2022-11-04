@@ -3,6 +3,8 @@ const { db } = require("./firebase.js");
 const stripe = require("stripe")(
   "sk_test_51M0KGaSDfnVBrdujH04TsbfdshfWPUtwgCrphuQDBjgumyUpZuFvjcQvgJ5lb0s5fKC2IkzQg7SP8Duf4Chpr7oz00HGPo7Grx"
 );
+const endpointSecret =
+  "whsec_156653f2d3d12e2df3d97acab8facb50f54d165b20a251abfe3328eaf800c895";
 
 const PORT = 4343;
 
@@ -49,8 +51,7 @@ app.post("/session-payment-link", async (req, res) => {
 
     const sessionRef = db.collection("session").doc(sessionID);
     await sessionRef.update({
-      paymentLink: paymentLink,
-      complete: Number(2),
+      paymentLink: paymentLink.url,
     });
 
     res.status(200).json({ paymentLink: paymentLink.url });
