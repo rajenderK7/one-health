@@ -1,34 +1,56 @@
-import {
-  query,
-  collection,
-  where,
-  getDocs,
-  updateDoc,
-  doc,
-  getDoc,
-} from "firebase/firestore";
-import { Button, Card } from "react-bootstrap";
+import { updateDoc, doc, collection } from "firebase/firestore";
+import { Button, Card, Form } from "react-bootstrap";
 import { SessionModel } from "../../models/sessionModel";
-import { db } from "../../lib/firebase";
+import { db, storage } from "../../lib/firebase";
 import { useState } from "react";
 import emailjs from "emailjs-com";
+import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 function ActiveCard(active: SessionModel) {
-  const [meet, setMeet] = useState("");
-  const handleTest = async () => {};
-  const sendEmail = (active: SessionModel) => {
+  const [meet, setMeet] = useState([] as any);
+  const [uploadImg, setUploadImg] = useState<any>();
+
+  const handleUploadImg = (e: any) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setUploadImg(readerEvent.target?.result);
+    };
+  };
+
+  // const handleTest = async () => {
+
+  // };
+
+  const handlePrescriptionUpload = async () => {
+    const fileRef = ref(storage, `prescriptions/${active?.sessionID}/`);
+    const sessionRef = doc(collection(db, "session"), active.sessionID);
+    await uploadString(fileRef, uploadImg, "data_url").then(
+      async (snapshot) => {
+        const downloadURL = await getDownloadURL(fileRef);
+        await updateDoc(sessionRef, {
+          prescriptionDownloadLink: downloadURL,
+        });
+      }
+    );
+  };
+
+  const sendEmail = (meet: string) => {
     var templateParams = {
-      subject:"Zoom Meet",
+      subject: "Zoom Meet",
       name: active.userName,
-      to_email:"sritish.10@gmail.com",
-      html:"<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
-      meet:active.meetLink,
+      to_email: active.userMail,
+      html: "<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
+      link: "Meet Link: ".concat(meet),
     };
     emailjs
       .send(
         "service_sv44lfb",
         "template_c1efoau",
         templateParams,
-        "J8mT6HeY80F3gE4t2",
+        "J8mT6HeY80F3gE4t2"
       )
       .then(
         function (response) {
@@ -49,13 +71,12 @@ function ActiveCard(active: SessionModel) {
         console.log(err);
       });
     try {
-      await updateDoc(doc(db, "session", active.sessionID), { meetLink: meet });
+      await updateDoc(doc(db, "session", active.sessionID), {
+        meetLink: meet[0],
+      });
     } catch (err) {
       console.log(err);
     }
-
-    // emial.js buggy
-    // sendEmail(active);
   };
 
   const handleClose = async () => {
@@ -73,8 +94,22 @@ function ActiveCard(active: SessionModel) {
         <Card style={{ width: "18rem" }}>
           <Card.Body>
             <Card.Title>{active.userName}</Card.Title>
-            <Button className="me-3" onClick={handleTest}>
-              Prescription/Test
+            {active.complete > 1 && (
+              <Card.Subtitle>
+                <a href={active.meetLink} target="_blank" rel="norefferer">
+                  Meet Link
+                </a>
+              </Card.Subtitle>
+            )}
+            <Form.Group controlId="formFile" className="me-3">
+              <Form.Label>Upload Prescription</Form.Label>
+              <Form.Control type="file" onChange={handleUploadImg} />
+            </Form.Group>
+            <Button
+              className="me-3 bg-primary"
+              onClick={handlePrescriptionUpload}
+            >
+              Upload
             </Button>
             <Button className="me-3" onClick={handleMeet}>
               Meet
