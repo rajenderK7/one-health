@@ -1,8 +1,7 @@
 import HomeCard from "./HomeCard";
 import Container from "react-bootstrap/Container";
 import userHomeCards from "../../constants/userHomeCards";
-import MyAppointments from "./MyAppointments";
-
+import MyAppointments from "./MyAppointments"
 const UserHome = () => {
   return (
     <Container>

@@ -1,3 +1,4 @@
+
 import { updateDoc, doc, collection } from "firebase/firestore";
 import { Button, Card, Form } from "react-bootstrap";
 import { SessionModel } from "../../models/sessionModel";
@@ -7,6 +8,7 @@ import emailjs from "emailjs-com";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 function ActiveCard(active: SessionModel) {
   const [meet, setMeet] = useState([] as any);
+
   const [uploadImg, setUploadImg] = useState<any>();
 
   const handleUploadImg = (e: any) => {
@@ -19,10 +21,6 @@ function ActiveCard(active: SessionModel) {
       setUploadImg(readerEvent.target?.result);
     };
   };
-
-  // const handleTest = async () => {
-
-  // };
 
   const handlePrescriptionUpload = async () => {
     const fileRef = ref(storage, `prescriptions/${active?.sessionID}/`);
@@ -37,6 +35,8 @@ function ActiveCard(active: SessionModel) {
     );
   };
 
+  const handleTest = async () => {};
+
   const sendEmail = (meet: string) => {
     var templateParams = {
       subject: "Zoom Meet",
@@ -44,6 +44,9 @@ function ActiveCard(active: SessionModel) {
       to_email: active.userMail,
       html: "<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
       link: "Meet Link: ".concat(meet),
+      to_email:active.userMail,
+      html:"<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
+      link:"Meet Link: ".concat(meet),
     };
     emailjs
       .send(
@@ -65,7 +68,8 @@ function ActiveCard(active: SessionModel) {
     fetch("https://zoom-link.herokuapp.com/")
       .then((res) => res.json())
       .then((data) => {
-        setMeet(data[0]);
+        setMeet(data);
+        sendEmail(data[0]);
       })
       .catch((err) => {
         console.log(err);
@@ -77,11 +81,12 @@ function ActiveCard(active: SessionModel) {
     } catch (err) {
       console.log(err);
     }
+
   };
 
   const handleClose = async () => {
     try {
-      await updateDoc(doc(db, "session", active.sessionID), { complete: 2 });
+      await updateDoc(doc(db, "session", active.sessionID), { complete: 3 });
     } catch (err) {
       console.log(err);
     }
@@ -90,7 +95,6 @@ function ActiveCard(active: SessionModel) {
   return (
     <div>
       <div>
-        <a href="tel:+917993199469">call</a>
         <Card style={{ width: "18rem" }}>
           <Card.Body>
             <Card.Title>{active.userName}</Card.Title>

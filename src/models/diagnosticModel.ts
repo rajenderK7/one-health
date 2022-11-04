@@ -3,4 +3,5 @@ export default interface DiagnosticModel {
   name: string;
   place: string;
   description: string;
+  tests:object[],
 }

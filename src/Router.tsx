@@ -8,6 +8,7 @@ import UserContext from "./context/userContext";
 import RegisterDoctor from "./components/doctor/RegisterDoctor";
 import BookBeds from "./components/user/BookBeds";
 
+
 const Router = () => {
   const { user, role } = useContext(UserContext);
   console.log(role);

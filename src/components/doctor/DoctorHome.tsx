@@ -6,8 +6,8 @@ import AppointmentCard from "./AppointmentCard";
 import { Navigate } from "react-router-dom";
 import { SessionModel } from "../../models/sessionModel";
 import ActiveCard from "./ActiveCard";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 
+import { useCollectionData } from "react-firebase-hooks/firestore";
 function DoctorHome() {
   const [appointments, setAppointments] = useState([] as any);
   const [active, setActive] = useState([] as any);
@@ -94,7 +94,6 @@ function DoctorHome() {
         active.map((active: SessionModel) => {
           return <ActiveCard {...active} />;
         })}
-
       {history && history.length > 0 && <h4>Past Appointments</h4>}
       {history &&
         history.map((history: SessionModel) => {

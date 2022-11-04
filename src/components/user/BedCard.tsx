@@ -6,19 +6,47 @@ import { useNavigate } from "react-router-dom";
 import { db } from "../../lib/firebase";
 import BedsModel from "../../models/bedsModel";
 import { somethingWentWrong } from "../../utils/somethingWentWrongToast";
+import emailjs from "emailjs-com";
+import { useContext } from "react";
+import UserContext from "../../context/userContext";
 
 function BedCard(bed: BedsModel) {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
+  const sendEmail = () => {
+    var templateParams = {
+      name:bed.userName,
+      subject:"Bed Confirmed",
+      to_email: "sritish.10@gmail.com",
+      message: "Your bed has been confirmed with ".concat(bed.hospitalName).concat(" text")
+    };
+    emailjs
+      .send(
+        "service_sv44lfb",
+        "template_c1efoau",
+        templateParams,
+        "J8mT6HeY80F3gE4t2"
+      )
+      .then(
+        function (response) {
+          console.log("SUCCESS!", response.status, response.text);
+        },
+        function (error) {
+          console.log("FAILED...", error);
+        }
+      );
+  };
   const handleBookAppointment = async () => {
     try {
       const bedsRef = doc(collection(db, "beds"), bed.uid);
       await updateDoc(bedsRef, {
         bedsAvailable: increment(-1),
+        userName:user?.uid,
       });
 
       // send mail to the user regarding the booking
-
+      sendEmail();
       toast.success("Succesfully booked bed.");
       navigate("/");
     } catch (error) {
