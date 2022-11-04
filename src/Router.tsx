@@ -6,8 +6,6 @@ import DoctorHome from "./components/doctor/DoctorHome";
 import UserHome from "./components/user/UserHome";
 import UserContext from "./context/userContext";
 import RegisterDoctor from "./components/doctor/RegisterDoctor";
-import DiagnosisHome from "./components/diagnosisCenter/DiagnosisHome";
-import RegisterCenter from "./components/diagnosisCenter/RegisterCenter";
 import BookBeds from "./components/user/BookBeds";
 
 
@@ -37,14 +35,6 @@ const Router = () => {
         <Routes>
           <Route path="/" element={<DoctorHome />}></Route>
           <Route path="/register" element={<RegisterDoctor />}></Route>
-        </Routes>
-      );
-
-    case 3:
-      return (
-        <Routes>
-          <Route path="/" element={<DiagnosisHome />}></Route>
-          <Route path="/register" element={<RegisterCenter />}></Route>
         </Routes>
       );
     default:

@@ -13,12 +13,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBz9pYHcn1zlXHK1UAHcMR7F9XGllzOc7s",
-  authDomain: "one-health-38728.firebaseapp.com",
-  projectId: "one-health-38728",
-  storageBucket: "one-health-38728.appspot.com",
-  messagingSenderId: "422615539322",
-  appId: "1:422615539322:web:4efa316031e5fe4189e5c3",
+  apiKey: "AIzaSyDBCek6kMcNgo3LKiZvAkK5mPI5QO8Vq84",
+  authDomain: "one-health1.firebaseapp.com",
+  projectId: "one-health1",
+  storageBucket: "one-health1.appspot.com",
+  messagingSenderId: "536459228305",
+  appId: "1:536459228305:web:3af773a07631a304817b30",
 };
 
 // Initialize Firebase

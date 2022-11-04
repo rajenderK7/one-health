@@ -42,8 +42,13 @@ const SessionCard = ({
         {session.complete >= 2 && (
           <div>
             Meet Link:
-            <Card.Link className="ms-2" href="#">
-              {session.meetLink ?? "Not available yet."}
+            <Card.Link
+              className="ms-2"
+              href={session.meetLink}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {session.meetLink ? "Start meet" : "Not available yet."}
             </Card.Link>
           </div>
         )}
