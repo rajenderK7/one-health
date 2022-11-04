@@ -18,7 +18,7 @@ app.use(express.json());
     consultationFee,
   }
 */
-app.get("/session-payment-link", async (req, res) => {
+app.post("/session-payment-link", async (req, res) => {
   try {
     const { doctorName, sessionID, consultationFee } = req.body;
     const doctorFee = +consultationFee;
