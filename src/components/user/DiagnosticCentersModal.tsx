@@ -52,7 +52,7 @@ const DiagnosticCentersModal = ({ sessionID }: DiagnosticCentersModalProps) => {
 
   return (
     <>
-      <Button className="bg-info text-sm border-0 mt-3" onClick={handleShow}>
+      <Button className="bg-success btn-sm border-0 mt-3" onClick={handleShow}>
         Book Diagnostic Center
       </Button>
 

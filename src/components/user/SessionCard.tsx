@@ -97,10 +97,13 @@ const SessionCard = ({
           <DiagnosticCentersModal sessionID={session.sessionID} />
         )}
         {/* Show the `Cancel Appointment` option only before the payment is done */}
-        {session.complete < 2 && (
+        {session.complete < 3 && (
           <Button
             onClick={() =>
-              handleCancelAppointment(session.sessionID, session.doctorID)
+              handleCancelAppointment(
+                session.sessionID,
+                session.doctorID.trim()
+              )
             }
             className="bg-danger mt-3 border-0 btn-sm"
           >
