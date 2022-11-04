@@ -53,10 +53,7 @@ const SessionCard = ({
           <Button className="me-2 bg-success mt-3 border-0 btn-sm">
             <a
               className="text-white text-decoration-none"
-              href={
-                session.paymentLink ??
-                "https://buy.stripe.com/test_28o00s22w566b5u28g"
-              }
+              href={session.paymentLink}
               rel="noreferrer"
               target="_blank"
             >
