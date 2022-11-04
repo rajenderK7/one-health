@@ -7,9 +7,10 @@ const endpointSecret =
   "whsec_156653f2d3d12e2df3d97acab8facb50f54d165b20a251abfe3328eaf800c895";
 
 const PORT = 4343;
-
+const cors =require('cors');
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // POST request to add payment link to session document
 /*

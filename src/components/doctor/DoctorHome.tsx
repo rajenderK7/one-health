@@ -13,6 +13,7 @@ import AppointmentCard from "./AppointmentCard";
 import { useNavigate } from "react-router-dom";
 import { SessionModel } from "../../models/sessionModel";
 import ActiveCard from "./ActiveCard";
+import PastCard from "./PastCard";
 // TODO:
 // 1. CRETAE PAST CARD
 function DoctorHome() {
@@ -31,12 +32,12 @@ function DoctorHome() {
       );
       const activeQuery = query(
         collection(db, "session"),
-        where("complete", "==", 3),
+        where("complete", "==", 2), 
         where("doctorID", "==", user?.uid)
       );
       const historyQuery = query(
         collection(db, "session"),
-        where("complete", "==", 2),
+        where("complete", "==", 3),
         where("doctorID", "==", user?.uid)
       );
       const res = onSnapshot(apptQuery, (snapshot) => {
@@ -66,10 +67,11 @@ function DoctorHome() {
         }
       });
     }
-  });
+  },[user]);
 
   return (
     <div className="container">
+      <h5>{user?.displayName} Dashboard</h5>
       {appointments.length > 0 && <h4>New Appointments</h4>}
       {appointments.map((appointment: SessionModel) => {
         return <AppointmentCard {...appointment} />;
@@ -82,7 +84,7 @@ function DoctorHome() {
 
       {history.length > 0 && <h4>Past Appointments</h4>}
       {history.map((history: SessionModel) => {
-        return <ActiveCard {...history} />;
+        return <PastCard {...history} />;
       })}
     </div>
   );

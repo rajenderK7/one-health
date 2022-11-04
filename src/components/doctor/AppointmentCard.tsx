@@ -1,29 +1,25 @@
-import {
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import emailjs from "emailjs-com";
 import { Button, Card } from "react-bootstrap";
 import { SessionModel } from "../../models/sessionModel";
-const axios = require('axios');
+import axios from "axios";
 // TODO
 // 1.FIX EMAILJS PARAMS
 function AppointmentCard(appointment: SessionModel) {
   const sendEmail = () => {
     var templateParams = {
-      paitent_name: appointment.userName,
-      to_email: "sritish.10@gmail.com",
-      doctor_name: appointment.doctorName,
+      userName: appointment.userName,
+      to_email: appointment.userMail,
+      doctorName: appointment.doctorName,
       symptoms: appointment.symptoms,
-      doctor_fee: "400",
-      html:"<b>bold</b>",
+      fee: appointment.consultationFee,
+      link: appointment.paymentLink,
     };
     emailjs
       .send(
         "service_sv44lfb",
-        "template_c1efoau",
+        "template_adykkwj",
         templateParams,
         "J8mT6HeY80F3gE4t2"
       )
@@ -39,19 +35,20 @@ function AppointmentCard(appointment: SessionModel) {
 
   const handleAccept = async () => {
     try {
-      await updateDoc(doc(db, "session", appointment.sessionID), { complete: 1 });
-      console.log("Accepted");
+      await updateDoc(doc(db, "session", appointment.sessionID), {
+        complete: Number(1),
+      });
+      const res = await axios.post(
+        "http://localhost:4343/session-payment-link",
+        {
+          doctorName: appointment.doctorName,
+          sessionID: appointment.sessionID,
+          consultationFee: appointment.consultationFee,
+        }
+      );
+      console.log(res);
     } catch (err) {
       console.log(err);
-    }
-    try{
-      const res = await axios.post('http://localhost:4343/session-payment-link', {
-	    doctorName: appointment.doctorName,
-	    sessionID: appointment.sessionID,
-	    consultationFee: appointment.doctorMail
-    });
-    }catch(err){
-      console.log(err)
     }
     // email.js
     sendEmail();
@@ -83,7 +80,3 @@ function AppointmentCard(appointment: SessionModel) {
 }
 
 export default AppointmentCard;
-function then(arg0: (response: any) => void) {
-  throw new Error("Function not implemented.");
-}
-

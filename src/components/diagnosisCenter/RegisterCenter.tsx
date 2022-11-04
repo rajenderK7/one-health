@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 
 function RegisterCenter() {
+  const[name,setName]=useState("");
+  const[deesc,setDesc]=useState("");
+  const[place,setPlace]=useState("");
+  // const {user} = useContext(userContext);
+
+
   return (
     <div>
       <Form className="w-25 mx-auto mt-5">

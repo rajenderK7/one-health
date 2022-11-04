@@ -14,7 +14,7 @@ function ActiveCard(active: SessionModel) {
     var templateParams = {
       subject:"Zoom Meet",
       name: active.userName,
-      to_email:"sritish.10@gmail.com",
+      to_email:active.userMail,
       html:"<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
       link:"Meet Link: ".concat(meet),
     };
@@ -55,7 +55,7 @@ function ActiveCard(active: SessionModel) {
 
   const handleClose = async () => {
     try {
-      await updateDoc(doc(db, "session", active.sessionID), { complete: 2 });
+      await updateDoc(doc(db, "session", active.sessionID), { complete: 3 });
     } catch (err) {
       console.log(err);
     }
@@ -67,6 +67,7 @@ function ActiveCard(active: SessionModel) {
         <Card style={{ width: "18rem" }}>
           <Card.Body>
             <Card.Title>{active.userName}</Card.Title>
+            {active.complete >1 && <Card.Subtitle><a href={active.meetLink} target="_blank" rel="norefferer">Meet Link</a></Card.Subtitle>}
             <Button className="me-3" onClick={handleTest}>
               Prescription/Test
             </Button>
