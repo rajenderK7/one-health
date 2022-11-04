@@ -9,5 +9,6 @@ export interface DoctorModel {
   consultationFee: string;
   availableHrs: string;
   hospital: string;
+  mail: string;
   phone: string;
 }

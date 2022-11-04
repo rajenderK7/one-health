@@ -9,7 +9,7 @@ import RegisterDoctor from "./components/doctor/RegisterDoctor";
 import DiagnosisHome from "./components/diagnosisCenter/DiagnosisHome";
 import RegisterCenter from "./components/diagnosisCenter/RegisterCenter";
 import BookBeds from "./components/user/BookBeds";
-import LeafletMap from "./components/Map/LeafletMap";
+
 
 const Router = () => {
   const { user, role } = useContext(UserContext);

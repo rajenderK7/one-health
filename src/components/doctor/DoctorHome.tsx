@@ -55,6 +55,7 @@ function DoctorHome() {
   };
 
   useEffect(() => {
+    // rcheck role
     if (user) {
       getDoc(doc(db, "doctors", user?.uid)).then((docSnap) => {
         if (docSnap.exists()) {

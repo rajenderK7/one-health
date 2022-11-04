@@ -1,17 +1,18 @@
 export interface SessionModel {
   sessionID: string;
   userID: string;
-  userName: string;
-  userEmail:string;
-  symptoms: string;
   doctorID: string;
-  doctorName: string;
-  doctorEmail:string;
   diagnosticID: string;
+  userName: string;
+  doctorName: string;
+  userMail: string;
+  doctorMail: string;
+  symptoms: string;
   active: boolean;
   complete: number;
   meetLink: string;
   paymentLink: string;
+  consultationFee: string;
   prescriptionDownloadLink?: string;
   paymentDone: boolean;
 }
