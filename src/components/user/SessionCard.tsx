@@ -1,7 +1,10 @@
 import FileSaver from "file-saver";
+import { collection, doc, updateDoc } from "firebase/firestore";
 import { Button, Card } from "react-bootstrap";
 import { sessionStatus } from "../../constants/sessionStatus";
+import { db } from "../../lib/firebase";
 import { SessionModel } from "../../models/sessionModel";
+import { somethingWentWrong } from "../../utils/somethingWentWrongToast";
 import DiagnosticCentersModal from "./DiagnosticCentersModal";
 
 export interface SessionCardProps {
@@ -15,6 +18,17 @@ const SessionCard = ({
 }: SessionCardProps) => {
   const saveFile = () => {
     FileSaver.saveAs(session.prescriptionDownloadLink ?? "", "Prescription");
+  };
+
+  const handlePayment = async () => {
+    try {
+      const sessionRef = doc(collection(db, "session"), session.sessionID);
+      await updateDoc(sessionRef, {
+        complete: 2,
+      });
+    } catch (error) {
+      somethingWentWrong(error);
+    }
   };
 
   return (
@@ -49,11 +63,17 @@ const SessionCard = ({
             to continue with consultation.
           </p>
         )}
-        {session.complete === 1 && (
-          <Button className="me-2 bg-success mt-3 border-0 btn-sm">
+        {session.complete === 1 && session.paymentLink && (
+          <Button
+            onClick={handlePayment}
+            className="me-2 bg-success mt-3 border-0 btn-sm"
+          >
             <a
               className="text-white text-decoration-none"
-              href={session.paymentLink}
+              href={
+                session.paymentLink ??
+                "https://buy.stripe.com/test_28o00s22w566b5u28g"
+              }
               rel="noreferrer"
               target="_blank"
             >
