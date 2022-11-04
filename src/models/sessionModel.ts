@@ -1,11 +1,13 @@
 export interface SessionModel {
   sessionID: string;
   userID: string;
-  doctorID: string;
-  diagnosticID: string;
   userName: string;
-  doctorName: string;
+  userEmail:string;
   symptoms: string;
+  doctorID: string;
+  doctorName: string;
+  doctorEmail:string;
+  diagnosticID: string;
   active: boolean;
   complete: number;
   meetLink:string,

@@ -2,6 +2,7 @@ import HomeCard from "./HomeCard";
 import Container from "react-bootstrap/Container";
 import userHomeCards from "../../constants/userHomeCards";
 import MyAppointments from "./MyAppointments";
+import LeafletMap from "../Map/LeafletMap";
 
 const UserHome = () => {
   return (
@@ -12,6 +13,9 @@ const UserHome = () => {
         {userHomeCards.map((card, index) => {
           return <HomeCard key={index} {...card} />;
         })}
+      <div>
+        {/* <LeafletMap/> */}
+      </div>
       </div>
     </Container>
   );

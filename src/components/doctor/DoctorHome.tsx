@@ -5,7 +5,6 @@ import {
   collection,
   where,
   query,
-  getDocs,
   getDoc,
   onSnapshot,
 } from "firebase/firestore";
@@ -16,8 +15,6 @@ import { SessionModel } from "../../models/sessionModel";
 import ActiveCard from "./ActiveCard";
 // TODO:
 // 1. CRETAE PAST CARD
-
-
 function DoctorHome() {
   const [appointments, setAppointments] = useState([] as any);
   const [active, setActive] = useState([] as any);
@@ -43,9 +40,7 @@ function DoctorHome() {
         where("doctorID", "==", user?.uid)
       );
       const res = onSnapshot(apptQuery, (snapshot) => {
-        setAppointments(
-          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-        );
+        setAppointments(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
       });
       const res1 = onSnapshot(activeQuery, (snapshot) => {
         setActive(snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
@@ -70,7 +65,7 @@ function DoctorHome() {
         }
       });
     }
-  }, [user]);
+  });
 
   return (
     <div className="container">

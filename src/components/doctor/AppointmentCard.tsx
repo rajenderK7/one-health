@@ -1,22 +1,16 @@
 import {
   doc,
-  collection,
   updateDoc,
-  query,
-  where,
-  getDocs,
-  getDoc,
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../lib/firebase";
 import emailjs from "emailjs-com";
-import { useState, useEffect } from "react";
 import { Button, Card } from "react-bootstrap";
 import { SessionModel } from "../../models/sessionModel";
 // TODO
 // 1.FIX EMAILJS PARAMS
 function AppointmentCard(appointment: SessionModel) {
-  const sendEmail = (appointment: SessionModel) => {
+  const sendEmail = () => {
     var templateParams = {
       paitent_name: appointment.userName,
       to_email: "sritish.10@gmail.com",
@@ -43,16 +37,6 @@ function AppointmentCard(appointment: SessionModel) {
   };
 
   const handleAccept = async () => {
-    // const q = query(
-    //   collection(db, "session"),
-    //   where("complete", "==", 0),
-    //   where("doctorID", "==", appointment.doctorID),
-    //   where("userID", "==", appointment.userID)
-    // );
-    // const snap = (await getDocs(q)).forEach((doc) => {
-    //   setId(doc.id);
-    // });
-    // update doc 3-> accepted
     try {
       await updateDoc(doc(db, "session", appointment.sessionID), { complete: 3 });
       console.log("Accepted");
@@ -60,19 +44,10 @@ function AppointmentCard(appointment: SessionModel) {
       console.log(err);
     }
     // email.js
-    sendEmail(appointment);
+    sendEmail();
   };
 
   const handleReject = async () => {
-    // const q = query(
-    //   collection(db, "session"),
-    //   where("complete", "==", 0),
-    //   where("doctorID", "==", appointment.doctorID),
-    //   where("userID", "==", appointment.userID)
-    // );
-    // const snap = (await getDocs(q)).forEach((doc) => {
-    //   setId(doc.id);
-    // });
     try {
       await deleteDoc(doc(db, "session", appointment.sessionID));
     } catch (err) {

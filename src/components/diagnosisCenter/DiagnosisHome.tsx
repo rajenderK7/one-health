@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../../context/userContext";
@@ -12,7 +12,13 @@ function DiagnosisHome() {
   const [orders,setOrders]=useState([] as any);
   const fetchOrders = async () =>{
     // logic
-
+    const q = query(
+      collection(db, "session"),
+      where("diagnosticID", "==", user?.uid)
+    );
+    const res = onSnapshot(q, (snapshot) => {
+      setOrders(snapshot.docs.map((doc) => ({ ...doc.data()})));
+    });
   }
 
 
@@ -27,7 +33,7 @@ function DiagnosisHome() {
         }
       });
     }
-  }, [user]);
+  });
 
   return <div>
     <h4>Dashboard</h4>

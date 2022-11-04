@@ -1,11 +1,6 @@
 import {
-  query,
-  collection,
-  where,
-  getDocs,
   updateDoc,
   doc,
-  getDoc,
 } from "firebase/firestore";
 import { Button, Card } from "react-bootstrap";
 import { SessionModel } from "../../models/sessionModel";
@@ -13,15 +8,15 @@ import { db } from "../../lib/firebase";
 import { useState } from "react";
 import emailjs from "emailjs-com";
 function ActiveCard(active: SessionModel) {
-  const [meet, setMeet] = useState("");
+  const [meet, setMeet] = useState([] as any);
   const handleTest = async () => {};
-  const sendEmail = (active: SessionModel) => {
+  const sendEmail = (meet: string) => {
     var templateParams = {
       subject:"Zoom Meet",
       name: active.userName,
       to_email:"sritish.10@gmail.com",
       html:"<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
-      meet:active.meetLink,
+      link:"Meet Link: ".concat(meet),
     };
     emailjs
       .send(
@@ -43,19 +38,19 @@ function ActiveCard(active: SessionModel) {
     fetch("https://zoom-link.herokuapp.com/")
       .then((res) => res.json())
       .then((data) => {
-        setMeet(data[0]);
+        setMeet(data);
+        sendEmail(data[0]);
       })
       .catch((err) => {
         console.log(err);
       });
     try {
-      await updateDoc(doc(db, "session", active.sessionID), { meetLink: meet });
+      await updateDoc(doc(db, "session", active.sessionID), { meetLink: meet[0] });
     } catch (err) {
       console.log(err);
     }
 
-    // emial.js buggy
-    // sendEmail(active);
+    
   };
 
   const handleClose = async () => {
@@ -69,7 +64,6 @@ function ActiveCard(active: SessionModel) {
   return (
     <div>
       <div>
-        <a href="tel:+917993199469">call</a>
         <Card style={{ width: "18rem" }}>
           <Card.Body>
             <Card.Title>{active.userName}</Card.Title>
