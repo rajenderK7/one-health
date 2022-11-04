@@ -51,7 +51,17 @@ const SessionCard = ({
         )}
         {session.complete === 1 && (
           <Button className="me-2 bg-success mt-3 border-0 btn-sm">
-            Make Payment
+            <a
+              className="text-white text-decoration-none"
+              href={
+                session.paymentLink ??
+                "https://buy.stripe.com/test_28o00s22w566b5u28g"
+              }
+              rel="noreferrer"
+              target="_blank"
+            >
+              Make Payment
+            </a>
           </Button>
         )}
         {/* Order medicine is available only after prescription download link is available */}
