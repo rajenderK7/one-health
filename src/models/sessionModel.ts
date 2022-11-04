@@ -8,7 +8,8 @@ export interface SessionModel {
   symptoms: string;
   active: boolean;
   complete: number;
-  meetLink:string,
+  meetLink: string;
+  paymentLink: string;
   prescriptionDownloadLink?: string;
   paymentDone: boolean;
 }
