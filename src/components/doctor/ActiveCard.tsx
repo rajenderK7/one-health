@@ -1,4 +1,3 @@
-
 import { updateDoc, doc, collection } from "firebase/firestore";
 import { Button, Card, Form } from "react-bootstrap";
 import { SessionModel } from "../../models/sessionModel";
@@ -44,9 +43,6 @@ function ActiveCard(active: SessionModel) {
       to_email: active.userMail,
       html: "<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
       link: "Meet Link: ".concat(meet),
-      to_email:active.userMail,
-      html:"<p>Your appointment has been confrimed. Please Join using the below Link. the seesion will be of <b>45 Mins Only</b></p>",
-      link:"Meet Link: ".concat(meet),
     };
     emailjs
       .send(
@@ -81,7 +77,6 @@ function ActiveCard(active: SessionModel) {
     } catch (err) {
       console.log(err);
     }
-
   };
 
   const handleClose = async () => {
@@ -100,7 +95,7 @@ function ActiveCard(active: SessionModel) {
             <Card.Title>{active.userName}</Card.Title>
             {active.complete > 1 && (
               <Card.Subtitle>
-                <a href={active.meetLink} target="_blank" rel="norefferer">
+                <a href={active.meetLink} target="_blank" rel="noreferrer">
                   Meet Link
                 </a>
               </Card.Subtitle>
