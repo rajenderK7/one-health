@@ -40,7 +40,7 @@ const EmergencyCall = () => {
   ];
 
   const apiEndpoint = (lat: string, long: string) => {
-    return `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=${origin[0]},${origin[1]}&destinations=${lat},${long}&departure_time=now&key=oEKfqegbqDJlftnh40ElraARvOJ9b`;
+    return `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=17.5370841,78.3844623&destinations=${lat},${long}&departure_time=now&key=oEKfqegbqDJlftnh40ElraARvOJ9b`;
   };
 
   const getLocation = () => {
@@ -57,27 +57,31 @@ const EmergencyCall = () => {
     hospitals.forEach(async (hospital) => {
       const res = await axios.get(apiEndpoint(hospital.lat, hospital.long));
       const data = res.data;
+      console.log(data, data.rows["0"].elements["0"].distance.value,);
       const distanceObj = {
         ...hospital,
         distance: data.rows["0"].elements["0"].distance.value,
       };
-      // console.log(distanceObj.distance);
       if (distanceObj.distance <= leastDistance) {
-        setLeastDistance(distanceObj.distance);
-        setNearestHospital(distanceObj.phone);
+        setNearestHospital(distanceObj.phone)
+        setLeastDistance(distanceObj);
       }
     });
   };
 
   useEffect(() => {
     // get the users location
-    getLocation();
+    if(origin[0]===""){
+      getLocation();
+    }
   }, []);
 
   useEffect(() => {
-    fetchDistances();
+      console.log("origin length", origin.length, origin);
+      fetchDistances();
   }, [origin]);
-  // console.log(nearestHospital);
+
+  console.log(origin);
 
   return (
     <div
@@ -90,7 +94,7 @@ const EmergencyCall = () => {
           className="btn-floating btn-primary rounded"
         >
           <h1
-            onClick={() => console.log(nearestHospital.phone)}
+            onClick={() => console.log(nearestHospital)}
             className="fas fa-plus"
           >
             <a
