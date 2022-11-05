@@ -9,7 +9,6 @@ import { toast } from "react-hot-toast";
 import { somethingWentWrong } from "../../utils/somethingWentWrongToast";
 import SelectCategory from "./SelectCategory";
 import { selectCities } from "../../constants/selectCities";
-import axios from "axios";
 
 export interface DiagnosticCentersModalProps {
   sessionID: string;
@@ -17,23 +16,6 @@ export interface DiagnosticCentersModalProps {
 
 const DiagnosticCentersModal = ({ sessionID }: DiagnosticCentersModalProps) => {
   const [show, setShow] = useState(false);
-  const [eta, setEta] = useState<Number>(-1);
-  const [dist, setDist] = useState<Number>(-1);
-
-  const apiEndpoint = () => {
-    return `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=17.5370841,78.3844623&destinations=17.44082648817257,78.44329286405467&departure_time=now&key=oEKfqegbqDJlftnh40ElraARvOJ9b`;
-  };
-
-  const getEta = async () => {
-    const res = await axios.get(apiEndpoint());
-    const data = res.data;
-    setEta(Math.floor(data.rows["0"].elements["0"].duration.value / 60));
-    setDist(Math.floor(data.rows["0"].elements["0"].distance.value / 1000));
-  };
-
-  useEffect(() => {
-    getEta();
-  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -56,12 +38,12 @@ const DiagnosticCentersModal = ({ sessionID }: DiagnosticCentersModalProps) => {
     setFilteredDiagnostics(docs);
   };
 
-  const handleAddDiagnostic = async (diagnosticID: string) => {
+  const handleAddDiagnostic = async (diagnosticID: string, eta: string) => {
     try {
       const sessionRef = doc(collection(db, "session"), sessionID);
       await updateDoc(sessionRef, {
         diagnosticID: diagnosticID,
-        eta: eta.toString(),
+        eta: eta,
       });
       toast.success("Successfully booked diagnostic center.");
     } catch (error) {

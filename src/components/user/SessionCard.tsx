@@ -126,9 +126,7 @@ const SessionCard = ({
             </Card.Link>
           </div>
         )}
-        {session.paymentDone && session.eta && (
-          <Card.Text>ETA Medicine: {session.eta} Mins</Card.Text>
-        )}
+        {session.eta && <Card.Text>ETA Medicine: {session.eta} Mins</Card.Text>}
         {/* Add download functionality */}
         {session.complete >= 2 && session.prescriptionDownloadLink && (
           <Button
