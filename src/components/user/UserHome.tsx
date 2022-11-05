@@ -1,7 +1,8 @@
 import HomeCard from "./HomeCard";
 import Container from "react-bootstrap/Container";
 import userHomeCards from "../../constants/userHomeCards";
-import MyAppointments from "./MyAppointments"
+import MyAppointments from "./MyAppointments";
+import EmergencyCall from "./EmergencyCall";
 const UserHome = () => {
   return (
     <Container>
@@ -12,6 +13,7 @@ const UserHome = () => {
           return <HomeCard key={index} {...card} />;
         })}
       </div>
+      <EmergencyCall />
     </Container>
   );
 };
