@@ -14,28 +14,28 @@ const EmergencyCall = () => {
       lat: "17.4371",
       long: "78.4830",
       location: "Secunderabad",
-      phone: "+919959157455",
+      phone: "+919959157435",
     },
     {
       name: "AIG Hospitals",
       lat: "17.4431",
       long: "78.3661",
       location: "Gachibowli",
-      phone: "+919441353600",
+      phone: "+919476753600",
     },
     {
       name: "Kamineni Hospitals",
       lat: "17.3523",
       long: "78.5551",
       location: "LB Nagar",
-      phone: "+919959157455",
+      phone: "+919878957455",
     },
     {
       name: "Aakar Asha Hospital",
       lat: "17.4893",
       long: "78.4080",
       location: "Kukatpally",
-      phone: "+919441353600",
+      phone: "+919898353600",
     },
   ];
 
@@ -57,13 +57,13 @@ const EmergencyCall = () => {
     hospitals.forEach(async (hospital) => {
       const res = await axios.get(apiEndpoint(hospital.lat, hospital.long));
       const data = res.data;
-      console.log(data, data.rows["0"].elements["0"].distance.value,);
+      // console.log(data, data.rows["0"].elements["0"].distance.value);
       const distanceObj = {
         ...hospital,
         distance: data.rows["0"].elements["0"].distance.value,
       };
       if (distanceObj.distance <= leastDistance) {
-        setNearestHospital(distanceObj.phone)
+        setNearestHospital(distanceObj.phone);
         setLeastDistance(distanceObj);
       }
     });
@@ -71,17 +71,17 @@ const EmergencyCall = () => {
 
   useEffect(() => {
     // get the users location
-    if(origin[0]===""){
+    if (origin[0] === "") {
       getLocation();
     }
   }, []);
 
   useEffect(() => {
-      console.log("origin length", origin.length, origin);
-      fetchDistances();
+    // console.log("origin length", origin.length, origin);
+    fetchDistances();
   }, [origin]);
 
-  console.log(origin);
+  // console.log(origin);
 
   return (
     <div
@@ -99,7 +99,7 @@ const EmergencyCall = () => {
           >
             <a
               style={{ textDecoration: "none" }}
-              href={`tel:${nearestHospital.phone ?? "+NA"}`}
+              href={`tel:${nearestHospital}`}
             >
               <FiPhoneCall />
             </a>
