@@ -7,6 +7,7 @@ import UserHome from "./components/user/UserHome";
 import UserContext from "./context/userContext";
 import RegisterDoctor from "./components/doctor/RegisterDoctor";
 import BookBeds from "./components/user/BookBeds";
+import DiagonsisHome from "./components/diagonsis/DiagonsisHome";
 
 
 const Router = () => {
@@ -37,6 +38,13 @@ const Router = () => {
           <Route path="/register" element={<RegisterDoctor />}></Route>
         </Routes>
       );
+
+      case 3:
+        return(
+          <Routes>
+            <Route path="/" element={<DiagonsisHome />}></Route>
+        </Routes>
+        )
     default:
       return <div>Page does not exits</div>;
   }

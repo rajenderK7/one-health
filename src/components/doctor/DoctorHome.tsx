@@ -30,7 +30,7 @@ function DoctorHome() {
     setAppointments(newAppointments);
     // active appointments
     const actAppointments = value?.filter((doc) => {
-      return doc.complete > 0 && doc.complet < 3;
+      return doc.complete > 0 && doc.complete < 3;
     });
     setActive(actAppointments);
     // past appointments
@@ -85,19 +85,19 @@ function DoctorHome() {
       {loading && <p>Loading...</p>}
       {appointments && appointments.length > 0 && <h4>New Appointments</h4>}
       {appointments &&
-        appointments.map((appointment: SessionModel) => {
-          return <AppointmentCard {...appointment} />;
+        appointments.map((appointment: SessionModel, index: any) => {
+          return <AppointmentCard key={index} {...appointment} />;
         })}
 
       {active && active.length > 0 && <h4>Active Appointments</h4>}
       {active &&
-        active.map((active: SessionModel) => {
-          return <ActiveCard {...active} />;
+        active.map((active: SessionModel, index: any) => {
+          return <ActiveCard key={index} {...active} />;
         })}
       {history && history.length > 0 && <h4>Past Appointments</h4>}
       {history &&
-        history.map((history: SessionModel) => {
-          return <ActiveCard {...history} />;
+        history.map((history: SessionModel, index: any) => {
+          return <ActiveCard key={index} {...history} />;
         })}
     </div>
   );

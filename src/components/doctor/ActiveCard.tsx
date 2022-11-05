@@ -22,7 +22,7 @@ function ActiveCard(active: SessionModel) {
   };
 
   const handlePrescriptionUpload = async () => {
-    const fileRef = ref(storage, `prescriptions/${active?.sessionID}/`);
+    const fileRef = ref(storage, `prescriptions/${active?.sessionID}`);
     const sessionRef = doc(collection(db, "session"), active.sessionID);
     await uploadString(fileRef, uploadImg, "data_url").then(
       async (snapshot) => {
@@ -93,7 +93,7 @@ function ActiveCard(active: SessionModel) {
         <Card style={{ width: "18rem" }}>
           <Card.Body>
             <Card.Title>{active.userName}</Card.Title>
-            {active.complete > 1 && (
+            { active.complete > 1 && (
               <Card.Subtitle>
                 <a href={active.meetLink} target="_blank" rel="noreferrer">
                   Meet Link
