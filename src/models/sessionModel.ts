@@ -15,4 +15,5 @@ export interface SessionModel {
   consultationFee: string;
   prescriptionDownloadLink?: string;
   paymentDone: boolean;
+  eta: string;
 }

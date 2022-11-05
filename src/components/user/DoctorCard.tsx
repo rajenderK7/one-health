@@ -29,7 +29,7 @@ function DoctorCard({ doctor, currentUserAppointments }: DoctorCardProps) {
       batch.set(sessionRef, {
         sessionID: sessionRef.id,
         userID: user?.uid,
-        doctorID: doctor.uid,
+        doctorID: doctor.uid.trim(),
         userName: user?.displayName,
         doctorName: doctor.name,
         symptoms: symptoms,

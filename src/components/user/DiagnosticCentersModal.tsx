@@ -1,5 +1,5 @@
 import { collection, doc, updateDoc } from "@firebase/firestore";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -9,6 +9,7 @@ import { toast } from "react-hot-toast";
 import { somethingWentWrong } from "../../utils/somethingWentWrongToast";
 import SelectCategory from "./SelectCategory";
 import { selectCities } from "../../constants/selectCities";
+import axios from "axios";
 
 export interface DiagnosticCentersModalProps {
   sessionID: string;
@@ -16,6 +17,23 @@ export interface DiagnosticCentersModalProps {
 
 const DiagnosticCentersModal = ({ sessionID }: DiagnosticCentersModalProps) => {
   const [show, setShow] = useState(false);
+  const [eta, setEta] = useState<Number>(-1);
+  const [dist, setDist] = useState<Number>(-1);
+
+  const apiEndpoint = () => {
+    return `https://api.distancematrix.ai/maps/api/distancematrix/json?origins=17.5370841,78.3844623&destinations=17.44082648817257,78.44329286405467&departure_time=now&key=oEKfqegbqDJlftnh40ElraARvOJ9b`;
+  };
+
+  const getEta = async () => {
+    const res = await axios.get(apiEndpoint());
+    const data = res.data;
+    setEta(Math.floor(data.rows["0"].elements["0"].duration.value / 60));
+    setDist(Math.floor(data.rows["0"].elements["0"].distance.value / 1000));
+  };
+
+  useEffect(() => {
+    getEta();
+  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -43,6 +61,7 @@ const DiagnosticCentersModal = ({ sessionID }: DiagnosticCentersModalProps) => {
       const sessionRef = doc(collection(db, "session"), sessionID);
       await updateDoc(sessionRef, {
         diagnosticID: diagnosticID,
+        eta: eta.toString(),
       });
       toast.success("Successfully booked diagnostic center.");
     } catch (error) {
@@ -52,7 +71,7 @@ const DiagnosticCentersModal = ({ sessionID }: DiagnosticCentersModalProps) => {
 
   return (
     <>
-      <Button className="bg-info text-sm border-0 mt-3" onClick={handleShow}>
+      <Button className="bg-success btn-sm border-0 mt-3" onClick={handleShow}>
         Book Diagnostic Center
       </Button>
 

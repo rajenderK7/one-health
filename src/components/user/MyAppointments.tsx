@@ -37,7 +37,7 @@ const MyAppointments = () => {
       const batch = writeBatch(db);
       batch.delete(sessionRef);
       batch.update(userRef, {
-        appointments: arrayRemove(doctorID),
+        appointments: arrayRemove(doctorID.trim()),
       });
 
       await batch.commit();
