@@ -12,8 +12,7 @@ const SelectCategory = ({
   selectCategories,
 }: SelectCategoryProps) => {
   return (
-    <Form.Group controlId="formBasicSelect">
-      <Form.Label>Choose specific category</Form.Label>
+    <Form.Group className="w-50 me-2" controlId="formBasicSelect">
       <Form.Control
         as="select"
         value={category}

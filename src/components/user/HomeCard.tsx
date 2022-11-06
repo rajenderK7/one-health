@@ -11,13 +11,14 @@ export interface HomeCardProps {
 
 function HomeCard({ title, description, linkText, link }: HomeCardProps) {
   return (
-    <Card style={{ maxWidth: "300px", minWidth: "200px" }} className="mt-2">
-      <Card.Body>
+    <Card style={{ width: "300px" }} className="p-3 mt-2 mb-3 shadow">
+      <Card.Body className="mb-3">
         <Card.Title>{title}</Card.Title>
+        <hr></hr>
         <Card.Text>{description}</Card.Text>
       </Card.Body>
       <Link to={link}>
-        <Button className="ms-3 mb-3" variant="primary">
+        <Button className="mb-1 float-end" variant="primary">
           {linkText}
         </Button>
       </Link>

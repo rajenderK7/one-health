@@ -23,12 +23,6 @@ const userHomeCards: HomeCardProps[] = [
     link: "/user/book-diagnostics",
     linkText: <AiFillMedicineBox />,
   },
-  {
-    title: "Pharmacy",
-    description: "Book/Order medicine directly on the web.",
-    link: "/user/book-pharmacy",
-    linkText: <GiMedicines />,
-  },
 ];
 
 export default userHomeCards;

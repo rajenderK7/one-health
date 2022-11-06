@@ -105,17 +105,24 @@ const SessionCard = ({
     }
   };
 
+  const colors = ["orange", "red", "grey", "green"];
+
   return (
-    <Card style={{ width: "25rem" }}>
+    <Card style={{ width: "25rem" }} className="shadow mx-auto">
       <Card.Body>
         <Card.Title>Dr. {session.doctorName}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">
-          Status: {sessionStatus[session.complete]}
+          <b>Status:</b>{" "}
+          <span style={{ color: colors[session.complete] }}>
+            {sessionStatus[session.complete]}
+          </span>
         </Card.Subtitle>
-        <Card.Text>Symptoms: {session.symptoms}</Card.Text>
+        <Card.Text>
+          <b>Symptoms:</b> {session.symptoms}
+        </Card.Text>
         {session.complete >= 2 && (
           <div>
-            Meet Link:
+            <b>Meet Link:</b>
             <Card.Link
               className="ms-2"
               href={session.meetLink}
