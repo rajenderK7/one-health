@@ -90,7 +90,7 @@ function ActiveCard(active: SessionModel) {
   return (
     <div>
       <div>
-        <Card style={{ width: "18rem" }}>
+        <Card className="mt-3" style={{ width: "18rem" }}>
           <Card.Body>
             <Card.Title>{active.userName}</Card.Title>
             { active.complete > 1 && (
@@ -100,12 +100,13 @@ function ActiveCard(active: SessionModel) {
                 </a>
               </Card.Subtitle>
             )}
-            <Form.Group controlId="formFile" className="me-3">
-              <Form.Label>Upload Prescription</Form.Label>
-              <Form.Control type="file" onChange={handleUploadImg} />
+            <Form.Group controlId="formFile" className="mb-3">
+              <Form.Label className="mb-3">Upload Prescription</Form.Label>
+              <Form.Control className="mb-3" type="file" onChange={handleUploadImg} />
             </Form.Group>
+            <div className="mt-3">
             <Button
-              className="me-3 bg-primary"
+              className="mt-3 bg-primary"
               onClick={handlePrescriptionUpload}
             >
               Upload
@@ -114,6 +115,7 @@ function ActiveCard(active: SessionModel) {
               Meet
             </Button>
             <Button onClick={handleClose}>Close</Button>
+            </div>
           </Card.Body>
         </Card>
       </div>

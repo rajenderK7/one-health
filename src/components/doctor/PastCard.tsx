@@ -6,10 +6,11 @@ function PastCard(active :SessionModel) {
     const handleTest = () =>{};
   return (
     <div>
-      <Card style={{ width: "18rem" }}>
+      <Card className="mb-3 shadow" style={{ width: "18rem" }}>
         <Card.Body>
-          <Card.Title>{active.userName}</Card.Title>
-          <Card.Subtitle>{active.symptoms}</Card.Subtitle>
+          <Card.Title><b>Patient:</b>  {active.userName}</Card.Title>
+          <hr />
+          <Card.Subtitle className="mt-3 mb-3"><b>Symptom:</b>  {active.symptoms}</Card.Subtitle>
           <Button className="me-3" onClick={handleTest}>
             Prescription/Test
           </Button>

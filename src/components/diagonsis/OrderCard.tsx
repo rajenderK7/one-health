@@ -69,12 +69,20 @@ function OrderCard(order: SessionModel) {
           >
             View Presctiption
           </Button>
+          {!displayMap&&
           <Button
             className=" bg-success btn-sm btn mt-2 "
             onClick={handleStart}
           >
             start
-          </Button>
+          </Button>}
+          {displayMap&&
+          <Button
+            className=" bg-danger btn-sm btn mt-2 "
+            onClick={()=>setDisplayMap(false)}
+          >
+            stop
+          </Button>}
         </Card.Body>
       </Card>
       {displayMap && <Map

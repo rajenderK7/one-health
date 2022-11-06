@@ -27,7 +27,8 @@ export default function Map(props: { location: any }) {
       cor = [...cor, [points[1], points[0]]];
       // console.log(cor)
     });
-    cor.pop();
+    
+    cor.pop()
     setGeoJsonData(cor);
   };
 

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NavDropdown } from "react-bootstrap";
+import { Nav, NavDropdown } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import { useNavigate } from "react-router-dom";
@@ -24,22 +24,21 @@ const UserNavbar = () => {
   };
 
   return (
-    <Navbar>
-      <Container>
-        <Navbar.Brand onClick={handleHome} style={{ cursor: "pointer" }}>
-          One-health
-        </Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
+    <Navbar className="mx-auto shadow mb-4">
+    <Container>
+      <Navbar.Brand onClick={handleHome} style={{ cursor: "pointer" }}>
+        <b>One-Health</b>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse className="justify-content-end">
+        <Nav className="float-end">
           <NavDropdown title={user?.displayName} id="navbarScrollingDropdown">
-            <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-            <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-            <NavDropdown.Divider />
             <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
           </NavDropdown>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        </Nav>
+      </Navbar.Collapse>
+    </Container>
+  </Navbar>
   );
 };
 

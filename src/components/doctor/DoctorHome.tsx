@@ -8,6 +8,7 @@ import { SessionModel } from "../../models/sessionModel";
 import ActiveCard from "./ActiveCard";
 
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import PastCard from "./PastCard";
 function DoctorHome() {
   const [appointments, setAppointments] = useState([] as any);
   const [active, setActive] = useState([] as any);
@@ -83,22 +84,28 @@ function DoctorHome() {
     <div className="container">
       <h5>{user?.displayName} Dashboard</h5>
       {loading && <p>Loading...</p>}
-      {appointments && appointments.length > 0 && <h4>New Appointments</h4>}
+      {appointments && appointments.length > 0 && <h4 className="mt-3">New Appointments</h4>}
+      <hr />
       {appointments &&
         appointments.map((appointment: SessionModel, index: any) => {
           return <AppointmentCard key={index} {...appointment} />;
         })}
 
-      {active && active.length > 0 && <h4>Active Appointments</h4>}
+      {active && active.length > 0 && <h4 className="mt-3">Active Appointments</h4>}
+      <hr />
       {active &&
         active.map((active: SessionModel, index: any) => {
           return <ActiveCard key={index} {...active} />;
         })}
-      {history && history.length > 0 && <h4>Past Appointments</h4>}
+     
+      {history && history.length > 0 && <h4 className="mt-3">Past Appointments</h4>}
+      <hr />
+      <div className="d-flex justify-content-around mt-5">
       {history &&
         history.map((history: SessionModel, index: any) => {
-          return <ActiveCard key={index} {...history} />;
+          return <PastCard key={index} {...history} />;
         })}
+        </div>
     </div>
   );
 }

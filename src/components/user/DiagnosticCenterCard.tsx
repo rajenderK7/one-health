@@ -16,7 +16,7 @@ const DiagnosticCenterCard = ({
   handleClose,
 }: DiagnosticCenterProps) => {
   const handleSelection = () => {
-    handleAddDiagnostic(diagnostic.uid);
+    handleAddDiagnostic(diagnostic.uid);  
     handleClose();
   };
   const [eta, setEta] = useState<Number>(-1);
