@@ -63,7 +63,7 @@ function DoctorCard({ doctor, currentUserAppointments }: DoctorCardProps) {
   }, [currentUserAppointments, doctor.uid]);
 
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card style={{ minWidth: "18rem" }}>
       <Card.Body>
         <Card.Title>{doctor.name}</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">

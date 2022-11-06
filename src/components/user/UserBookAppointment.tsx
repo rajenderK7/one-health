@@ -49,39 +49,52 @@ const UserBookAppointment = () => {
   }, []);
 
   return (
-    <div>
-      <div className="d-flex align-items-center">
-        <SelectCategory
-          category={category}
-          handleCategoryChange={handleCategoryChange}
-          selectCategories={selectCategories}
-        />
-        <Button onClick={handleSearch} variant="primary text-sm">
-          Filter
-        </Button>
+    <div className="mt-3">
+      <div className="text-center">
+        <div>
+          <div className="mb-3">
+            <b>Select Category:</b>
+          </div>
+          <div className="mb-3">
+            <div className="d-flex justify-content-center">
+              <SelectCategory
+                category={category}
+                handleCategoryChange={handleCategoryChange}
+                selectCategories={selectCategories}
+              />
+              <Button onClick={handleSearch} variant="primary text-sm">
+                Filter
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
-      {fetchLoading && <p>loading...</p>}
-      {category === "select" &&
-        doctors.map((doctor: DoctorModel) => {
-          return (
-            <DoctorCard
-              key={doctor.uid}
-              doctor={doctor}
-              currentUserAppointments={value?.appointments}
-            />
-          );
-        })}
-      {category !== "select" &&
-        filteredDoctors.length > 0 &&
-        filteredDoctors.map((doctor: DoctorModel) => {
-          return (
-            <DoctorCard
-              key={doctor.uid}
-              doctor={doctor}
-              currentUserAppointments={value?.appointments}
-            />
-          );
-        })}
+      <div className="mt-5 w-75 mx-auto d-flex justify-content-around">
+        {fetchLoading && <p>loading...</p>}
+        {category === "select" &&
+          doctors.map((doctor: DoctorModel) => {
+            return (
+              <div>
+                <DoctorCard
+                  key={doctor.uid}
+                  doctor={doctor}
+                  currentUserAppointments={value?.appointments}
+                />
+              </div>
+            );
+          })}
+        {category !== "select" &&
+          filteredDoctors.length > 0 &&
+          filteredDoctors.map((doctor: DoctorModel) => {
+            return (
+              <DoctorCard
+                key={doctor.uid}
+                doctor={doctor}
+                currentUserAppointments={value?.appointments}
+              />
+            );
+          })}
+      </div>
     </div>
   );
 };

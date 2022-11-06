@@ -1,10 +1,7 @@
 import { Button, Card } from "react-bootstrap";
 import DiagnosticModel from "../../models/diagnosticModel";
-import { IoLocationSharp } from "react-icons/io5";
 import { useEffect, useState } from "react";
-import { getModeForUsageLocation } from "typescript";
 import axios from "axios";
-import DiagonsisHome from "../diagonsis/DiagonsisHome";
 export interface DiagnosticCenterProps {
   diagnostic: DiagnosticModel;
   handleAddDiagnostic: any;
@@ -16,7 +13,7 @@ const DiagnosticCenterCard = ({
   handleClose,
 }: DiagnosticCenterProps) => {
   const handleSelection = () => {
-    handleAddDiagnostic(diagnostic.uid);  
+    handleAddDiagnostic(diagnostic.uid, eta.toString());  
     handleClose();
   };
   const [eta, setEta] = useState<Number>(-1);
@@ -28,7 +25,9 @@ const DiagnosticCenterCard = ({
   };
 
   const getEta = async () => {
-    const res = await axios.get(apiEndpoint(diagnostic.location[0],diagnostic.location[1]));
+    const res = await axios.get(
+      apiEndpoint(diagnostic.location[0], diagnostic.location[1])
+    );
     const data = res.data;
     setEta(Math.floor(data.rows["0"].elements["0"].duration.value / 60));
     setDist(Math.floor(data.rows["0"].elements["0"].distance.value / 1000));
@@ -45,8 +44,10 @@ const DiagnosticCenterCard = ({
         <Card.Subtitle className="mb-2 text-muted d-flex align-items-center">
           <span className="ms-1">{diagnostic.address}</span>
         </Card.Subtitle>
-        {Object.keys(diagnostic.tests).map((test:any, key)=>(
-          <Card.Subtitle key={key} className="mb-3">{test}  Rs.{diagnostic.tests[test]}</Card.Subtitle>
+        {Object.keys(diagnostic.tests).map((test: any, key) => (
+          <Card.Subtitle key={key} className="mb-3">
+            {test} Rs.{diagnostic.tests[test]}
+          </Card.Subtitle>
         ))}
         <Button
           onClick={handleSelection}
@@ -58,12 +59,16 @@ const DiagnosticCenterCard = ({
           {eta === -1 ? (
             <h6>Loading...</h6>
           ) : (
-            <Card.Subtitle className="d-block">{eta.toString().concat(" Min")}</Card.Subtitle>
+            <Card.Subtitle className="d-block">
+              {eta.toString().concat(" Min")}
+            </Card.Subtitle>
           )}
           {dist === -1 ? (
             <h6>Loading...</h6>
           ) : (
-            <Card.Subtitle className="d-block">{dist.toString().concat(" Km")}</Card.Subtitle>
+            <Card.Subtitle className="d-block">
+              {dist.toString().concat(" Km")}
+            </Card.Subtitle>
           )}
         </div>
       </Card.Body>

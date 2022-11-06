@@ -89,7 +89,7 @@ const EmergencyCall = () => {
       style={{ bottom: "10px", right: "10px" }}
     >
       <div className="d-block action-button">
-        <button
+        <div
           onClick={handleCallClick}
           className="btn-floating btn-primary rounded"
         >
@@ -101,10 +101,10 @@ const EmergencyCall = () => {
               style={{ textDecoration: "none" }}
               href={`tel:${nearestHospital}`}
             >
-              <FiPhoneCall />
+              <FiPhoneCall className="bg-success" />
             </a>
           </h1>
-        </button>
+        </div>
       </div>
     </div>
   );

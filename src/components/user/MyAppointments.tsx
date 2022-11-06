@@ -50,6 +50,7 @@ const MyAppointments = () => {
   return (
     <div>
       <h2 className="my-3">My Appointments</h2>
+      <hr />
       {loading && <p>Loading...</p>}
       {value &&
         value?.map((doc: any, index: any) => {
